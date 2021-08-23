@@ -1,4 +1,5 @@
 import SingForm from './SingForm';
+import InfoTooltip from './InfoTooltip';
 
 function Register() {
 
@@ -47,7 +48,8 @@ function Register() {
                     <span id="about-error" className="form__input-error"></span>
                 </div>
             </SingForm>
-            <div>Уже зарегистрированы? <a href='sign-in' className='onSingInLink'>Войти</a></div>
+            <p className='onSingIn__text'>Уже зарегистрированы? <a href='sign-in' className='onSingIn__link'>Войти</a></p>
+            <InfoTooltip />
         </div >
     );
 }

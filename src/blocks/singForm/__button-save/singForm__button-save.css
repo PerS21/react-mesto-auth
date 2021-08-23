@@ -9,6 +9,7 @@
     cursor: pointer;
     width: 100%;
     background-color: #FFFFFF;
+    margin-top: 216px;
 }
 
 .singForm__button-save:hover {

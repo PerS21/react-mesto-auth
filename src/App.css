@@ -41,6 +41,7 @@
 @import url(./blocks/popup/__close-button/popup__close-button.css);
 @import url(./blocks/popup/__container/_content/popup__container_content-form.css);
 @import url(./blocks/popup/__container/_content/popup__container_content-img.css);
+@import url(./blocks/popup/__container/_content/popup__container_content-infoTooltip.css);
 
 
 @import url(./blocks/form/__title/form__title.css);
@@ -64,4 +65,7 @@
 @import url(./blocks/singForm/__input/singForm__input.css);
 @import url(./blocks/singForm/__button-save/singForm__button-save.css);
 
-@import url(./blocks/onSingInLink/onSingInLink.css)
+@import url(./blocks/infoTooltipPopup/__text/infoTooltipPopup__text.css);
+
+@import url(./blocks/onSingIn/__link/onSingIn__link.css);
+@import url(./blocks/onSingIn/__text/onSingIn__text.css);
