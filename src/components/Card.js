@@ -1,6 +1,5 @@
-import { CurrentUserContext } from './CurrentUserContext';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import React from 'react';
-import api from '../utils/api.js'
 
 function Card(props) {
     const currentUser = React.useContext(CurrentUserContext);
@@ -21,16 +20,12 @@ function Card(props) {
         props.onCardClick(props.card);
     }
 
-    function handleCardLike() {
-        const isLiked = props.card.likes.some(i => i._id === currentUser._id);
-        
-        api.changeLikeCardStatus(props.card._id, !isLiked).then((newCard) => {
-            props.setCards((state) => state.map((c) => c._id === props.card._id ? newCard : c));
-        }).catch(error => console.log(error));
-    }
-
     function handleClickDelte() {
         props.handleCardDelete(props.card);
+    }
+
+    function handleCardLike() {
+        props.handleCardLike(props.card);
     }
 
     return (

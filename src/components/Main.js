@@ -1,8 +1,8 @@
 import pencil from "../../src/images/Pencil.svg";
 import addPlace from "../../src/images/Plus.svg";
 import React from 'react';
-import Card from './Card.jsx';
-import { CurrentUserContext } from './CurrentUserContext';
+import Card from './Card.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);  
@@ -47,7 +47,7 @@ function Main(props) {
         <ul className="elements__list">
           {props.cards.map((card) => {
             return (
-              <Card card={card} setCards={props.setCards} onCardClick={props.onCardClick} key={card._id} handleCardDelete={props.handleCardDelete}/>
+              <Card card={card} setCards={props.setCards} onCardClick={props.onCardClick} key={card._id} handleCardDelete={props.handleCardDelete} handleCardLike={props.handleCardLike}/>
             )
           })}
         </ul>

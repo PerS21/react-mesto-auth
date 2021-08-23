@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import PopupWithForm from "./PopupWithForm.jsx";
+import { useState } from 'react';
+import PopupWithForm from "./PopupWithForm.js";
 
 function AddPlacePopup(props) {
 
@@ -7,11 +7,11 @@ function AddPlacePopup(props) {
     const [fildImg, setFildImg] = useState('');
 
     function handleChangeFildPlace(e) {
-        setFildPlace(e.target.value)
+        setFildPlace(e.target.value);
     }
 
     function handleChangeFildImg(e) {
-        setFildImg(e.target.value)
+        setFildImg(e.target.value);
     }
 
 
@@ -25,6 +25,7 @@ function AddPlacePopup(props) {
         <PopupWithForm title='Новое место' name='add-place' isOpen={props.isOpen} onClose={props.onClose} submitButtonText='Сохранить' onSubmit={onSubmit}>
         <div className="form__inputs">
           <input
+            value={fildPlace}
             id="place"
             required
             minLength="2"
@@ -37,6 +38,7 @@ function AddPlacePopup(props) {
           />
           <span id="place-error" className="form__input-error"></span>
           <input
+            value={fildImg}
             id="img"
             required
             name="fild_img"
