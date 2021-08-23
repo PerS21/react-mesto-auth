@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
+
+
 import "../App.css";
 import Header from "./Header.jsx";
 import Main from "./Main.jsx";
@@ -8,6 +11,7 @@ import PopupWithForm from "./PopupWithForm.jsx";
 import EditProfilePopup from "./EditProfilePopup.jsx";
 import EditAvatarPopup from "./EditAvatarPopup.jsx";
 import AddPlacePopup from "./AddPlacePopup.jsx";
+
 
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -100,10 +104,12 @@ function App() {
 }
 
   return (
+    <BrowserRouter>
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
           <Header />
+
           <Main 
             onEditProfile={handleEditProfileClick} 
             onAddPlace={handleAddPlaceClick} 
@@ -113,6 +119,15 @@ function App() {
             handleCardLike={handleCardLike}
             setCards={setCards} cards={cards} 
             />
+
+          <Switch>
+            <Route path="/">
+              <div>dwd</div>
+            </Route>
+          </Switch>
+
+
+
           <Footer />
           <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
           <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
@@ -124,6 +139,7 @@ function App() {
         </div>
       </div>
     </CurrentUserContext.Provider >
+    </BrowserRouter>
   );
 }
 
