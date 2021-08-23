@@ -2,9 +2,7 @@ import SingForm from './SingForm';
 
 function Login() {
 
-    const name = 'dads';
-    const title = 'dsadddd';
-    const submitButtonText = 'knopka';
+    const formName = 'login';
 
     function onSubmit(e) {
         e.preventDefault();
@@ -19,10 +17,10 @@ function Login() {
 
     return (
         <div className='singСonteiner'>
-            <SingForm title='Здесь авторизация!!!' onSubmit={onSubmit} submitButtonText='Войти'>
+            <SingForm title='Здесь авторизация!!!' onSubmit={onSubmit} submitButtonText='Войти' formName={formName}>
                 <div className="form__inputs">
                     <input
-                        value={name || ''}
+                        value={'dd'}
                         id="name"
                         required
                         minLength="2"

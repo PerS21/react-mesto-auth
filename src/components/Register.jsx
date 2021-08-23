@@ -2,7 +2,7 @@ import SingForm from './SingForm';
 
 function Register() {
 
-    const name = 'dads';
+    const formName = 'register';
 
     function onSubmit(e) {
         e.preventDefault();
@@ -17,10 +17,10 @@ function Register() {
 
     return (
         <div className='singСonteiner'>
-                <SingForm title='Здесь регистрация!!!' onSubmit={onSubmit} submitButtonText='Зарегистрироваться'>
+                <SingForm title='Здесь регистрация!!!' onSubmit={onSubmit} submitButtonText='Зарегистрироваться' formName={formName}>
                 <div className="form__inputs">
                     <input
-                        value={name || ''}
+                        value={'dqwd'}
                         id="name"
                         required
                         minLength="2"
