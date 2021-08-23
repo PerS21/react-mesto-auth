@@ -11,6 +11,8 @@ import PopupWithForm from "./PopupWithForm.jsx";
 import EditProfilePopup from "./EditProfilePopup.jsx";
 import EditAvatarPopup from "./EditAvatarPopup.jsx";
 import AddPlacePopup from "./AddPlacePopup.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
+
 
 
 
@@ -20,7 +22,7 @@ import api from '../utils/api.js';
 
 function App() {
 
-  const [currentUser, setСurrentUser] = useState({name: "", about: "", avatar: "", _id: "", cohort: ""});
+  const [currentUser, setСurrentUser] = useState({ name: "", about: "", avatar: "", _id: "", cohort: "" });
 
   useEffect(() => {
     api.getUser().then((res) => setСurrentUser(res)).catch(error => console.log(error))
@@ -91,54 +93,59 @@ function App() {
 
   function handleAddPlaceSubmit(name, link) {
     api.addCard(name, link)
-      .then((res) => {setCards([res, ...cards]); closeAllPopups()})
+      .then((res) => { setCards([res, ...cards]); closeAllPopups() })
       .catch(error => console.log(error));
   }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    
+
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     }).catch(error => console.log(error));
-}
+  }
 
   return (
     <BrowserRouter>
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-        <div className="page__container">
-          <Header />
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className="page">
+          <div className="page__container">
+            <Header />
 
-          <Main 
-            onEditProfile={handleEditProfileClick} 
-            onAddPlace={handleAddPlaceClick} 
-            onEditAvatar={handleEditAvatarClick} 
-            onCardClick={handleCardClick} 
-            handleCardDelete={handleCardDelete} 
-            handleCardLike={handleCardLike}
-            setCards={setCards} cards={cards} 
+            <Switch>
+              <ProtectedRoute />
+              <Route path="/mesto-react">
+                <div>hhhh</div>
+              </Route>
+              <Route path="/sadasd">
+                <div>ffff</div>
+              </Route>
+              <Route path="/">
+                <div>dwd</div>
+              </Route>
+            </Switch>
+
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              handleCardDelete={handleCardDelete}
+              handleCardLike={handleCardLike}
+              setCards={setCards} cards={cards}
             />
 
-          <Switch>
-            <Route path="/">
-              <div>dwd</div>
-            </Route>
-          </Switch>
+            <Footer />
+            <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+            <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit} />
 
+            <PopupWithForm title='Вы уверены?' name='delete-card' isOpen='' onClose={closeAllPopups} submitButtonText='Да' />
 
-
-          <Footer />
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit} />
-
-          <PopupWithForm title='Вы уверены?' name='delete-card' isOpen='' onClose={closeAllPopups} submitButtonText='Да' />
-
-          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+          </div>
         </div>
-      </div>
-    </CurrentUserContext.Provider >
+      </CurrentUserContext.Provider >
     </BrowserRouter>
   );
 }

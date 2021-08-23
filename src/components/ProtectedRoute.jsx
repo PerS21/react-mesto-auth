@@ -1,10 +1,10 @@
 import { Route } from 'react-router-dom';
 
 
-function ProtectedRoute(props) {
+function ProtectedRoute() {
     return (
-      <Route path='/' component={props.component}>
-        <img src={vectorLogo} alt="место" className="header__img" />
+      <Route path='/'>
+        <div>ProtectedRoute</div>
       </Route>
     );
   }
