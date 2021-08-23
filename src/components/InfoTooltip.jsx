@@ -4,7 +4,7 @@ import bad from "../../src/images/BadReg.png";
 
 
 function InfoTooltip(props) {
-    let isOpen = true;
+    let isOpen = false;
     const answerStatus = true;
     function onClose(){
         console.log('asd')
