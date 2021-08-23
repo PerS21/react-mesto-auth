@@ -12,15 +12,18 @@ import EditProfilePopup from "./EditProfilePopup.jsx";
 import EditAvatarPopup from "./EditAvatarPopup.jsx";
 import AddPlacePopup from "./AddPlacePopup.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
-
-
-
+import Login from "./Login.jsx";
+import Register from "./Register.jsx";
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { IsLoginContext } from '../contexts/IsLoginContext';
+
 import api from '../utils/api.js';
 
 
 function App() {
+
+  const [isLogin, setisLogin] = useState(true);
 
   const [currentUser, setСurrentUser] = useState({ name: "", about: "", avatar: "", _id: "", cohort: "" });
 
@@ -105,47 +108,47 @@ function App() {
     }).catch(error => console.log(error));
   }
 
+  const main = <Main
+  onEditProfile={handleEditProfileClick}
+  onAddPlace={handleAddPlaceClick}
+  onEditAvatar={handleEditAvatarClick}
+  onCardClick={handleCardClick}
+  handleCardDelete={handleCardDelete}
+  handleCardLike={handleCardLike}
+  setCards={setCards} cards={cards}
+/>
+
   return (
     <BrowserRouter>
-      <CurrentUserContext.Provider value={currentUser}>
-        <div className="page">
-          <div className="page__container">
-            <Header />
+      <IsLoginContext.Provider value={isLogin}>
+        <CurrentUserContext.Provider value={currentUser}>
+          <div className="page">
+            <div className="page__container">
+              <Header />
 
-            <Switch>
-              <ProtectedRoute />
-              <Route path="/mesto-react">
-                <div>hhhh</div>
-              </Route>
-              <Route path="/sadasd">
-                <div>ffff</div>
-              </Route>
-              <Route path="/">
-                <div>dwd</div>
-              </Route>
-            </Switch>
+              <Switch>
+                <Route path="/sign-up">
+                  <Register />
+                </Route>
+                <Route path="/sign-in">
+                  <Login />
+                </Route>
+                <ProtectedRoute path="/" commponent={main}>
+                </ProtectedRoute>
+              </Switch>
 
-            <Main
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              handleCardDelete={handleCardDelete}
-              handleCardLike={handleCardLike}
-              setCards={setCards} cards={cards}
-            />
+              <Footer />
+              <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+              <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+              <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit} />
 
-            <Footer />
-            <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-            <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit} />
+              <PopupWithForm title='Вы уверены?' name='delete-card' isOpen='' onClose={closeAllPopups} submitButtonText='Да' />
 
-            <PopupWithForm title='Вы уверены?' name='delete-card' isOpen='' onClose={closeAllPopups} submitButtonText='Да' />
-
-            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+            </div>
           </div>
-        </div>
-      </CurrentUserContext.Provider >
+        </CurrentUserContext.Provider >
+      </IsLoginContext.Provider>
     </BrowserRouter>
   );
 }

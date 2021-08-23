@@ -1,12 +1,22 @@
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
+import { IsLoginContext } from '../contexts/IsLoginContext';
+import React from 'react';
 
 
-function ProtectedRoute() {
-    return (
-      <Route path='/'>
-        <div>ProtectedRoute</div>
-      </Route>
-    );
+
+function ProtectedRoute(props) {
+
+  const isLogin = React.useContext(IsLoginContext);
+
+  if (!isLogin) {
+    return <Redirect to='/sign-in'></Redirect>
   }
-  
-  export default ProtectedRoute;
+
+  return (
+    <Route path={props.path}>
+      {props.commponent}
+    </Route>
+  );
+}
+
+export default ProtectedRoute;
