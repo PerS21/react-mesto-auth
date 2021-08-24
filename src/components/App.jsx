@@ -134,6 +134,7 @@ function App() {
     singApi.signIn(mail, password)
       .then((res) => {
         localStorage.setItem('jwt', res.token);
+        localStorage.setItem('email', res.data.email);
         setIsLoggedIn(true);
         history.push('/')
       })
@@ -148,10 +149,10 @@ function App() {
           setIsLoggedIn(true)
         })
         .catch(er => console.log(er))
-        .finally (()=>{setisLoading(false)})
+        .finally(() => { setisLoading(false) })
       history.push('/')
     } else {
-    setisLoading(false);
+      setisLoading(false);
     }
   }, []);
 
