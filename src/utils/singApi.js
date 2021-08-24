@@ -18,7 +18,7 @@ class SingApi {
                 })
             })
             .then((res) => {
-                return res.json();
+                if (res.ok) return res.json();
             })
     }
 
@@ -32,12 +32,12 @@ class SingApi {
                 })
             })
             .then((res) => {
-                return res.json();
+                if (res.ok) return res.json();
             })
     }
 
     check(jwt) {
-        return fetch(`${this._baseUrl}/signin`, {
+        return fetch(`${this._baseUrl}/users/me`, {
                 method: 'Get',
                 headers: {
                     'Content-Type': 'application/json',

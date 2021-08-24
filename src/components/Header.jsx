@@ -1,18 +1,19 @@
 import vectorLogo from "../../src/images/VectorLogo.svg";
 import { useHistory } from "react-router-dom";
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
-import ProtectedRoute from "./ProtectedRoute.jsx";
+import { Route, Switch } from 'react-router-dom';
 
 
 
-function Header() {
+function Header(props) {
   const history = useHistory();
   function click() {
     history.push('/')
   }
 
-  function onClick(){
-    console.log('dasdasd')
+  function onClick() {
+    localStorage.removeItem('jwt');
+    props.setisLoggedIn(false);
+    history.push('/sign-in');
   }
 
   return (

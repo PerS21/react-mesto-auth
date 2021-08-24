@@ -6,9 +6,9 @@ import React from 'react';
 
 function ProtectedRoute(props) {
 
-  const isLogin = React.useContext(IsLoginContext);
+  const isLoggedIn = React.useContext(IsLoginContext);
 
-  if (!isLogin) {
+  if (!isLoggedIn) {
     return <Redirect to='/sign-in'></Redirect>
   }
 

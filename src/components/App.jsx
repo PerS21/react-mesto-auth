@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, BrowserRouter  } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 
 import "../App.css";
@@ -23,12 +23,12 @@ import singApi from '../utils/singApi.js';
 
 
 
-function App(props) {
+function App() {
 
   const history = useHistory();
 
-  const [isLoggedIn, setisLoggedIn] = useState(false);
-  const [aa, aaa] = useState({ id: '', mail: '' });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
 
 
   const [currentUser, setСurrentUser] = useState({ name: "", about: "", avatar: "", _id: "", cohort: "" });
@@ -46,7 +46,7 @@ function App(props) {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(true);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
 
   function handleEditAvatarClick() {
@@ -123,8 +123,10 @@ function App(props) {
       .then((res) => {
         localStorage.setItem('jwt', res.data._id);
         localStorage.setItem('email', res.data.email);
-        setisLoggedIn(true);
+        setIsLoggedIn(true);
+        setIsInfoTooltipOpen(true);
       })
+      .catch(er => console.log(er))
   }
 
   function handleLogin(mail, password) {
@@ -132,18 +134,35 @@ function App(props) {
     singApi.signIn(mail, password)
       .then((res) => {
         localStorage.setItem('jwt', res.token);
-        setisLoggedIn(true);
-        console.log(res.token);
+        setIsLoggedIn(true);
         history.push('/')
       })
+      .catch(er => console.log(er))
   }
 
-  return (
+  useEffect(() => {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      singApi.check(jwt)
+        .then(() => {
+          setIsLoggedIn(true)
+        })
+        .catch(er => console.log(er))
+        .finally (()=>{setisLoading(false)})
+      history.push('/')
+    } else {
+    setisLoading(false);
+    }
+  }, []);
+
+  if (isLoading) { return <div>жди</div> }
+  else {
+    return (
       <IsLoginContext.Provider value={isLoggedIn}>
         <CurrentUserContext.Provider value={currentUser}>
           <div className="page">
             <div className="page__container">
-              <Header />
+              <Header setisLoggedIn={setIsLoggedIn} />
 
               <Switch>
                 <Route path="/sign-up">
@@ -176,7 +195,9 @@ function App(props) {
           </div>
         </CurrentUserContext.Provider >
       </IsLoginContext.Provider>
-  );
+    );
+  }
 }
+
 
 export default App;

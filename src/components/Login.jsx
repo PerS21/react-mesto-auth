@@ -22,7 +22,7 @@ function Login(props) {
 
     return (
         <div className='singСonteiner'>
-            <SingForm title='Здесь авторизация!!!' onSubmit={onSubmit} submitButtonText='Войти' formName={formName}>
+            <SingForm title='Вход' onSubmit={onSubmit} submitButtonText='Войти' formName={formName}>
                 <div className="form__inputs">
                     <input
                         value={mail || ''}

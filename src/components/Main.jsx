@@ -8,11 +8,10 @@ import { IsLoginContext } from '../contexts/IsLoginContext';
 
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);  
-  const login = React.useContext(IsLoginContext);  
-  console.log(login)
+  const isLoggetIn = React.useContext(IsLoginContext);  
 
   return (
-    login &&
+    isLoggetIn &&
     <main className="content">
       <section className="profile">
         <div className="profile__profile-info">

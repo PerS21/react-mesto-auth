@@ -24,7 +24,7 @@ function Register(props) {
 
     return (
         <div className='singСonteiner'>
-                <SingForm title='Здесь регистрация!!!' onSubmit={onSubmit} submitButtonText='Зарегистрироваться' formName={formName}>
+                <SingForm title='Регистрация' onSubmit={onSubmit} submitButtonText='Зарегистрироваться' formName={formName}>
                 <div className="form__inputs">
                     <input
                         value={mail || ''} 
