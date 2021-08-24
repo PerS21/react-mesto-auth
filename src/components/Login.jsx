@@ -1,18 +1,23 @@
 import SingForm from './SingForm';
+import React, { useState } from 'react';
 
-function Login() {
+function Login(props) {
+
+    const [mail, setMail] = useState('');
+    const [password, setPassword] = useState('');
 
     const formName = 'login';
 
+    function handleChangeMail(e) {
+        setMail(e.target.value);
+    }
+    function handleChangePassword(e) {
+        setPassword(e.target.value);
+    }
+
     function onSubmit(e) {
         e.preventDefault();
-        console.log('onSubmit!!!!')
-    }
-    function handleChangeDescription() {
-        console.log('handleChangeDescription')
-    }
-    function handleChangeName() {
-        console.log('handleChangeName')
+        props.onLogin(mail, password);
     }
 
     return (
@@ -20,29 +25,29 @@ function Login() {
             <SingForm title='Здесь авторизация!!!' onSubmit={onSubmit} submitButtonText='Войти' formName={formName}>
                 <div className="form__inputs">
                     <input
-                        value={'dd'}
+                        value={mail || ''}
                         id="name"
                         required
                         minLength="2"
                         maxLength="40"
                         name="fild_name"
                         type="text"
-                        placeholder="Название"
+                        placeholder="Email"
                         className="singForm__input profile-edit-form__input-fild-name"
-                        onChange={handleChangeName}
+                        onChange={handleChangeMail}
                     />
                     <span id="name-error" className="form__input-error"></span>
                     <input
-                        value={'dasd'}
+                        value={password || ''}
                         id="about"
                         required
                         minLength="2"
                         maxLength="200"
                         name="fild_about"
                         type="text"
-                        placeholder="Проффесия"
+                        placeholder="Пароль"
                         className="singForm__input profile-edit-form__input-fild-about"
-                        onChange={handleChangeDescription}
+                        onChange={handleChangePassword}
                     />
                     <span id="about-error" className="form__input-error"></span>
                 </div>

@@ -14,8 +14,6 @@ function AddPlacePopup(props) {
         setFildImg(e.target.value);
     }
 
-
-
     function onSubmit(e){
         e.preventDefault();
         props.onAddCard(fildPlace, fildImg);

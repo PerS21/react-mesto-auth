@@ -3,11 +3,16 @@ import addPlace from "../../src/images/Plus.svg";
 import React from 'react';
 import Card from './Card.jsx';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { IsLoginContext } from '../contexts/IsLoginContext';
+
 
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);  
+  const login = React.useContext(IsLoginContext);  
+  console.log(login)
 
   return (
+    login &&
     <main className="content">
       <section className="profile">
         <div className="profile__profile-info">

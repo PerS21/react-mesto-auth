@@ -27,7 +27,7 @@ function Header() {
         </Route>
         <Route path="/">
           <div className='header__auth-section'>
-            <p className='header__text'>меил</p>
+            <p className='header__text'>{localStorage.getItem('email')}</p>
             <button className='header__text header__button' onClick={onClick}>Выйти</button>
           </div>
         </Route>

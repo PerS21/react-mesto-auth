@@ -4,13 +4,9 @@ import bad from "../../src/images/BadReg.png";
 
 
 function InfoTooltip(props) {
-    let isOpen = false;
     const answerStatus = true;
-    function onClose(){
-        console.log('asd')
-    }
     return (
-        isOpen &&
+        props.isOpen &&
         <div className="popup infoTooltipPopup">
             <div className="popup__container popup__container_content-infoTooltip">
                 <img src={answerStatus ? good : bad} alt='dd' />
@@ -18,7 +14,7 @@ function InfoTooltip(props) {
                 <button
                     type="button"
                     className={`popup__close-button button ${props.name}-form__close-button`}
-                    onClick={onClose}
+                    onClick={props.onClose}
                 ></button>
             </div>
 

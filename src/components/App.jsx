@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
-
+import { Route, Switch, BrowserRouter  } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 import "../App.css";
 import Header from "./Header.jsx";
@@ -19,11 +19,17 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { IsLoginContext } from '../contexts/IsLoginContext';
 
 import api from '../utils/api.js';
+import singApi from '../utils/singApi.js';
 
 
-function App() {
 
-  const [isLogin, setisLogin] = useState(true);
+function App(props) {
+
+  const history = useHistory();
+
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [aa, aaa] = useState({ id: '', mail: '' });
+
 
   const [currentUser, setСurrentUser] = useState({ name: "", about: "", avatar: "", _id: "", cohort: "" });
 
@@ -40,6 +46,8 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(true);
+
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -57,6 +65,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsInfoTooltipOpen(false);
     setSelectedCard(null);
   }
 
@@ -106,21 +115,31 @@ function App() {
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
       setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     }).catch(error => console.log(error));
+  };
+
+  function handleRegisration(mail, password) {
+    console.log(mail, password)
+    singApi.signUp(mail, password)
+      .then((res) => {
+        localStorage.setItem('jwt', res.data._id);
+        localStorage.setItem('email', res.data.email);
+        setisLoggedIn(true);
+      })
   }
 
-  const main = <Main
-  onEditProfile={handleEditProfileClick}
-  onAddPlace={handleAddPlaceClick}
-  onEditAvatar={handleEditAvatarClick}
-  onCardClick={handleCardClick}
-  handleCardDelete={handleCardDelete}
-  handleCardLike={handleCardLike}
-  setCards={setCards} cards={cards}
-/>
+  function handleLogin(mail, password) {
+    console.log(mail, password)
+    singApi.signIn(mail, password)
+      .then((res) => {
+        localStorage.setItem('jwt', res.token);
+        setisLoggedIn(true);
+        console.log(res.token);
+        history.push('/')
+      })
+  }
 
   return (
-    <BrowserRouter>
-      <IsLoginContext.Provider value={isLogin}>
+      <IsLoginContext.Provider value={isLoggedIn}>
         <CurrentUserContext.Provider value={currentUser}>
           <div className="page">
             <div className="page__container">
@@ -128,12 +147,20 @@ function App() {
 
               <Switch>
                 <Route path="/sign-up">
-                  <Register />
+                  <Register isOpen={isInfoTooltipOpen} onClose={closeAllPopups} onRegisration={handleRegisration} />
                 </Route>
                 <Route path="/sign-in">
-                  <Login />
+                  <Login onLogin={handleLogin} />
                 </Route>
-                <ProtectedRoute path="/" commponent={main}>
+                <ProtectedRoute path="/" commponent={<Main
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  handleCardDelete={handleCardDelete}
+                  handleCardLike={handleCardLike}
+                  setCards={setCards} cards={cards}
+                />}>
                 </ProtectedRoute>
               </Switch>
 
@@ -149,7 +176,6 @@ function App() {
           </div>
         </CurrentUserContext.Provider >
       </IsLoginContext.Provider>
-    </BrowserRouter>
   );
 }
 

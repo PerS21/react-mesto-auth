@@ -1,19 +1,25 @@
 import SingForm from './SingForm';
 import InfoTooltip from './InfoTooltip';
+import React, { useState } from 'react';
 
-function Register() {
+
+function Register(props) {
+
+    const [mail, setMail] = useState('');
+    const [password, setPassword] = useState('');
 
     const formName = 'register';
 
+    function handleChangeMail(e) {
+        setMail(e.target.value);
+    }
+    function handleChangePassword(e) {
+        setPassword(e.target.value);
+    }
+
     function onSubmit(e) {
         e.preventDefault();
-        console.log('onSubmit1111')
-    }
-    function handleChangeDescription() {
-        console.log('handleChangeDescription')
-    }
-    function handleChangeName() {
-        console.log('handleChangeName')
+        props.onRegisration(mail, password);
     }
 
     return (
@@ -21,35 +27,35 @@ function Register() {
                 <SingForm title='Здесь регистрация!!!' onSubmit={onSubmit} submitButtonText='Зарегистрироваться' formName={formName}>
                 <div className="form__inputs">
                     <input
-                        value={'dqwd'}
-                        id="name"
+                        value={mail || ''} 
+                        id="mail"
                         required
                         minLength="2"
                         maxLength="40"
                         name="fild_name"
-                        type="text"
-                        placeholder="Название"
+                        type="email"
+                        placeholder="Email"
                         className="singForm__input profile-edit-form__input-fild-name"
-                        onChange={handleChangeName}
+                        onChange={handleChangeMail}
                     />
-                    <span id="name-error" className="form__input-error"></span>
+                    <span id="mail-error" className="form__input-error"></span>
                     <input
-                        value={'dasd'}
-                        id="about"
+                        value={password || ''} 
+                        id="password"
                         required
                         minLength="2"
                         maxLength="200"
                         name="fild_about"
                         type="text"
-                        placeholder="Проффесия"
+                        placeholder="Пароль"
                         className="singForm__input profile-edit-form__input-fild-about"
-                        onChange={handleChangeDescription}
+                        onChange={handleChangePassword}
                     />
-                    <span id="about-error" className="form__input-error"></span>
+                    <span id="password-error" className="form__input-error"></span>
                 </div>
             </SingForm>
             <p className='onSingIn__text'>Уже зарегистрированы? <a href='sign-in' className='onSingIn__link'>Войти</a></p>
-            <InfoTooltip />
+            <InfoTooltip isOpen={props.isOpen} onClose={props.onClose}/>
         </div >
     );
 }
