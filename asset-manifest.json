@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0e0d029d.chunk.css",
+    "main.js": "/static/js/main.21bb3995.chunk.js",
+    "main.js.map": "/static/js/main.21bb3995.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.87ffb84e.js",
+    "runtime-main.js.map": "/static/js/runtime-main.87ffb84e.js.map",
+    "static/js/2.82667f79.chunk.js": "/static/js/2.82667f79.chunk.js",
+    "static/js/2.82667f79.chunk.js.map": "/static/js/2.82667f79.chunk.js.map",
+    "static/js/3.f420a3c3.chunk.js": "/static/js/3.f420a3c3.chunk.js",
+    "static/js/3.f420a3c3.chunk.js.map": "/static/js/3.f420a3c3.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.0e0d029d.chunk.css.map": "/static/css/main.0e0d029d.chunk.css.map",
+    "static/js/2.82667f79.chunk.js.LICENSE.txt": "/static/js/2.82667f79.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/static/media/heartBlack.35948469.svg",
+    "static/media/Pencil.6c7bf054.svg": "/static/media/Pencil.6c7bf054.svg",
+    "static/media/Plus.bed8c136.svg": "/static/media/Plus.bed8c136.svg",
+    "static/media/VectorLogo.bbe2a6ea.svg": "/static/media/VectorLogo.bbe2a6ea.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.87ffb84e.js",
+    "static/js/2.82667f79.chunk.js",
+    "static/css/main.0e0d029d.chunk.css",
+    "static/js/main.21bb3995.chunk.js"
+  ]
+}
