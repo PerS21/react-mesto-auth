@@ -24,7 +24,7 @@ function Header(props) {
         <Route path="/">
           <div className='header__auth-section'>
             <p className='header__text'>{localStorage.getItem('email')}</p>
-            <Link className='button header__text header__button' onClick={props.onSignOut}>Выйти</Link>
+            <Link className='button header__text header__button' onClick={props.onSignOut} to='/sign-in'>Выйти</Link>
           </div>
         </Route>
       </Switch>
