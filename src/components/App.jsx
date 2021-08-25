@@ -14,12 +14,16 @@ import AddPlacePopup from "./AddPlacePopup.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
+import InfoTooltip from './InfoTooltip';
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { IsLoginContext } from '../contexts/IsLoginContext';
 
 import api from '../utils/api.js';
 import singApi from '../utils/singApi.js';
+
+import good from "../../src/images/GoodReg.png";
+import bad from "../../src/images/BadReg.png";
 
 
 
@@ -34,8 +38,13 @@ function App() {
   const [currentUser, setСurrentUser] = useState({ name: "", about: "", avatar: "", _id: "", cohort: "" });
 
   useEffect(() => {
-    api.getUser().then((res) => setСurrentUser(res)).catch(error => console.log(error))
-  }, []);
+    if (isLoggedIn) {
+      api.getUser().then((res) => setСurrentUser(res)).catch(error => console.log(error));
+      api.getCards()
+        .then(res => setCards(res))
+        .catch(error => console.log(error));
+    }
+  }, [isLoggedIn]);
 
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -46,7 +55,9 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [isGoodInfoTooltipOpen, setIsGoodInfoTooltipOpen] = useState(false);
+  const [isBadInfoTooltipOpen, setIsBadInfoTooltipOpen] = useState(false);
+
 
 
   function handleEditAvatarClick() {
@@ -65,7 +76,8 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setIsInfoTooltipOpen(false);
+    setIsGoodInfoTooltipOpen(false);
+    setIsBadInfoTooltipOpen(false);
     setSelectedCard(null);
   }
 
@@ -88,10 +100,6 @@ function App() {
   }
 
   const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api.getCards().then(res => setCards(res)).catch(error => console.log(error));
-  }, []);
 
   function handleCardDelete(card) {
     const cardId = card._id;
@@ -118,23 +126,22 @@ function App() {
   };
 
   function handleRegisration(mail, password) {
-    console.log(mail, password)
     singApi.signUp(mail, password)
-      .then((res) => {
-        localStorage.setItem('jwt', res.data._id);
-        localStorage.setItem('email', res.data.email);
-        setIsLoggedIn(true);
-        setIsInfoTooltipOpen(true);
+      .then(() => {
+        setIsGoodInfoTooltipOpen(true);
+        history.push('/sign-in')
       })
-      .catch(er => console.log(er))
+      .catch(er => {
+        setIsBadInfoTooltipOpen(true);
+        console.log(er)
+      })
   }
 
-  function handleLogin(mail, password) {
-    console.log(mail, password)
-    singApi.signIn(mail, password)
+  function handleLogin(email, password) {
+    singApi.signIn(email, password)
       .then((res) => {
         localStorage.setItem('jwt', res.token);
-        localStorage.setItem('email', res.data.email);
+        localStorage.setItem('email', email);
         setIsLoggedIn(true);
         history.push('/')
       })
@@ -145,7 +152,9 @@ function App() {
     if (localStorage.getItem('jwt')) {
       const jwt = localStorage.getItem('jwt');
       singApi.check(jwt)
-        .then(() => {
+        .then((res) => {
+          localStorage.setItem('_id', res.data._id);
+          localStorage.setItem('email', res.data.email);
           setIsLoggedIn(true)
         })
         .catch(er => console.log(er))
@@ -156,6 +165,12 @@ function App() {
     }
   }, []);
 
+  function onSignOut() {
+    localStorage.removeItem('jwt');
+    setIsLoggedIn(false);
+    history.push('/sign-in');
+  }
+
   if (isLoading) { return <div>жди</div> }
   else {
     return (
@@ -163,24 +178,25 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
           <div className="page">
             <div className="page__container">
-              <Header setisLoggedIn={setIsLoggedIn} />
+              <Header setisLoggedIn={setIsLoggedIn} onSignOut={onSignOut} />
 
               <Switch>
                 <Route path="/sign-up">
-                  <Register isOpen={isInfoTooltipOpen} onClose={closeAllPopups} onRegisration={handleRegisration} />
+                  <Register onRegisration={handleRegisration} />
                 </Route>
                 <Route path="/sign-in">
                   <Login onLogin={handleLogin} />
                 </Route>
-                <ProtectedRoute path="/" commponent={<Main
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onEditAvatar={handleEditAvatarClick}
-                  onCardClick={handleCardClick}
-                  handleCardDelete={handleCardDelete}
-                  handleCardLike={handleCardLike}
-                  setCards={setCards} cards={cards}
-                />}>
+                <ProtectedRoute path="/" >
+                  <Main
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    handleCardDelete={handleCardDelete}
+                    handleCardLike={handleCardLike}
+                    setCards={setCards} cards={cards}
+                  />
                 </ProtectedRoute>
               </Switch>
 
@@ -192,6 +208,8 @@ function App() {
               <PopupWithForm title='Вы уверены?' name='delete-card' isOpen='' onClose={closeAllPopups} submitButtonText='Да' />
 
               <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+              <InfoTooltip isOpen={isGoodInfoTooltipOpen} onClose={closeAllPopups} text='Вы успешно зарегистрировались!' imgLink={good} />
+              <InfoTooltip isOpen={isBadInfoTooltipOpen} onClose={closeAllPopups} text='Что-то пошло не так! Попробуйте ещё раз.' imgLink={bad} />
             </div>
           </div>
         </CurrentUserContext.Provider >

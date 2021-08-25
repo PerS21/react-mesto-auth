@@ -1,6 +1,6 @@
 import SingForm from './SingForm';
-import InfoTooltip from './InfoTooltip';
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 
 function Register(props) {
@@ -24,10 +24,10 @@ function Register(props) {
 
     return (
         <div className='singСonteiner'>
-                <SingForm title='Регистрация' onSubmit={onSubmit} submitButtonText='Зарегистрироваться' formName={formName}>
+            <SingForm title='Регистрация' onSubmit={onSubmit} submitButtonText='Зарегистрироваться' formName={formName}>
                 <div className="form__inputs">
                     <input
-                        value={mail || ''} 
+                        value={mail || ''}
                         id="mail"
                         required
                         minLength="2"
@@ -40,13 +40,13 @@ function Register(props) {
                     />
                     <span id="mail-error" className="form__input-error"></span>
                     <input
-                        value={password || ''} 
+                        value={password || ''}
                         id="password"
                         required
                         minLength="2"
                         maxLength="200"
                         name="fild_about"
-                        type="text"
+                        type="password"
                         placeholder="Пароль"
                         className="singForm__input profile-edit-form__input-fild-about"
                         onChange={handleChangePassword}
@@ -54,8 +54,8 @@ function Register(props) {
                     <span id="password-error" className="form__input-error"></span>
                 </div>
             </SingForm>
-            <p className='onSingIn__text'>Уже зарегистрированы? <a href='sign-in' className='onSingIn__link'>Войти</a></p>
-            <InfoTooltip isOpen={props.isOpen} onClose={props.onClose}/>
+            <p className='onSingIn__text'>Уже зарегистрированы? <Link to='/sign-in' className='button onSingIn__link'>Войти</Link></p>
+            {/* <InfoTooltip isOpen={props.isOpen} onClose={props.onClose} /> */}
         </div >
     );
 }

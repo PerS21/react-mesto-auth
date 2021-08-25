@@ -8,7 +8,7 @@ function SingForm(props) {
             {props.children}
             <button
                 type="submit"
-                className={`singForm__button-save  ${formName}-form__button-save`}
+                className={`button singForm__button-save  ${formName}-form__button-save`}
             >
                 {props.submitButtonText}
             </button>

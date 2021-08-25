@@ -44,7 +44,7 @@ function Login(props) {
                         minLength="2"
                         maxLength="200"
                         name="fild_about"
-                        type="text"
+                        type="password"
                         placeholder="Пароль"
                         className="singForm__input profile-edit-form__input-fild-about"
                         onChange={handleChangePassword}

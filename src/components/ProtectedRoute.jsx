@@ -14,7 +14,7 @@ function ProtectedRoute(props) {
 
   return (
     <Route path={props.path}>
-      {props.commponent}
+      {props.children}
     </Route>
   );
 }
