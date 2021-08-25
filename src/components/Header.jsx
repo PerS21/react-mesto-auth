@@ -1,19 +1,14 @@
 import vectorLogo from "../../src/images/VectorLogo.svg";
-import { useHistory } from "react-router-dom";
 import { Route, Switch, Link } from 'react-router-dom';
 
 
 
 
 function Header(props) {
-  const history = useHistory();
-  function click() {
-    history.push('/')
-  }
 
   return (
     <header className="header">
-      <img src={vectorLogo} alt="место" className="header__img" onClick={click} />
+      <img src={vectorLogo} alt="место" className="header__img" />
       <Switch>
         <Route path="/sign-up">
           <Link to='/sign-in' className='button header__Link header__text'>Войти</Link>
